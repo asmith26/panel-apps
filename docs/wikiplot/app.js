@@ -15,7 +15,7 @@ async function startApplication() {
   self.pyodide.globals.set("sendPatch", sendPatch);
   console.log("Loaded!");
   await self.pyodide.loadPackage("micropip");
-  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'matplotlib']
+  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'micropip']
   for (const pkg of env_spec) {
     let pkg_name;
     if (pkg.endsWith('.whl')) {
@@ -50,11 +50,11 @@ init_doc()
 # Adapted from https://huggingface.co/spaces/ahuang11/tweak-mpl-chat/raw/main/app.py
 # Blog: https://blog.holoviz.org/posts/tweak-mpl-chat/ (also https://huggingface.co/blog/sophiamyang/tweak-mpl-chat)
 
-import matplotlib
+import micropip
 import panel as pn
 from panel.io.mime_render import exec_with_return
 
-matplotlib.use('agg')
+micropip.install("matplotlib")
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 INITIAL_CODE = """
