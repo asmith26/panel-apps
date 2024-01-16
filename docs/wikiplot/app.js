@@ -47,6 +47,8 @@ from panel.io.pyodide import init_doc, write_doc
 
 init_doc()
 
+# https://panel.holoviz.org/how_to/notebook/examples/hello_world.html
+
 import panel as pn
 
 pn.extension(template='fast')
