@@ -6,4 +6,3 @@ dependencies:
   - panel
   - ca-certificates
   - openssl
-prefix: /home/dev/mambaforge/envs/panel-apps
