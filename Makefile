@@ -15,7 +15,7 @@ env-export:                                  ## Export mamba env
 ## Panel
 convert-panel-to-webassembly:
 	# mamba install panel
-	panel convert hello_world/app.py --to pyodide-worker --out docs/hello_world
+	panel convert wikiplot/app.py --to pyodide-worker --out docs/wikiplot
 
 serve-local-panel:
 	#panel serve hello_world/app.py --autoreload --show
