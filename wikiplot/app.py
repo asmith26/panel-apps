@@ -1,9 +1,11 @@
 # Adapted from https://huggingface.co/spaces/ahuang11/tweak-mpl-chat/raw/main/app.py
 # Blog: https://blog.holoviz.org/posts/tweak-mpl-chat/ (also https://huggingface.co/blog/sophiamyang/tweak-mpl-chat)
 
+import matplotlib
 import panel as pn
 from panel.io.mime_render import exec_with_return
 
+matplotlib.use('agg')
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 INITIAL_CODE = """
