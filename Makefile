@@ -23,4 +23,4 @@ serve-local-panel:
 
 serve-local-web-server:
 	python3 -m http.server
-	# and navigate to http://0.0.0.0:8000/panel_apps/hello_world/hello_world.html
+	# and navigate to http://0.0.0.0:8000/docs/wikiplot/app.html
