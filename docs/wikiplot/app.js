@@ -15,7 +15,7 @@ async function startApplication() {
   self.pyodide.globals.set("sendPatch", sendPatch);
   console.log("Loaded!");
   await self.pyodide.loadPackage("micropip");
-  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'matplotlib', 'micropip']
+  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'micropip']
   for (const pkg of env_spec) {
     let pkg_name;
     if (pkg.endsWith('.whl')) {
@@ -55,17 +55,20 @@ import panel as pn
 from panel.io.mime_render import exec_with_return
 
 
-async def main():
-    await micropip.install("matplotlib")
-    import matplotlib
-    matplotlib.use('agg')
-main()
+# async def main():
+#     await micropip.install("matplotlib")
+#     import matplotlib
+#     matplotlib.use('agg')
+# main()
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 INITIAL_CODE = """
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
+
 
 fig = plt.figure()
 ax = plt.axes(title="Plot Title", xlabel="X Label", ylabel="Y Label")

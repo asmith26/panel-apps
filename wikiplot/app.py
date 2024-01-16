@@ -6,17 +6,20 @@ import panel as pn
 from panel.io.mime_render import exec_with_return
 
 
-async def main():
-    await micropip.install("matplotlib")
-    import matplotlib
-    matplotlib.use('agg')
-main()
+# async def main():
+#     await micropip.install("matplotlib")
+#     import matplotlib
+#     matplotlib.use('agg')
+# main()
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 INITIAL_CODE = """
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
+
 
 fig = plt.figure()
 ax = plt.axes(title="Plot Title", xlabel="X Label", ylabel="Y Label")
