@@ -1,0 +1,9 @@
+name: panel-apps
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - panel
+  - ca-certificates
+  - openssl
+prefix: /home/dev/mambaforge/envs/panel-apps
