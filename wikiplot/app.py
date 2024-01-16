@@ -16,14 +16,6 @@ SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
         "using best practices. Simply provide code " \
         "in code fences (```python). You must have `fig` " \
         "as the last line of code"
-
-PROMPT_FORMAT = """
-{SYSTEM_MESSAGE}
-
-User: {user_prompt}\n\n```python\n{code}```
-Assistant: 
-""".strip()
-
 INITIAL_CODE = """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -48,25 +40,39 @@ fig
 """.strip()
 
 
-async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
-    in_message = PROMPT_FORMAT.format(
-        SYSTEM_MESSAGE=SYSTEM_MESSAGE, user_prompt=content, code=code_editor.value
-    )
+def callback(content: str, user: str, instance: pn.chat.ChatInterface):
+    ###return "test"
+    in_message = f"{content}\n\n```python\n{code_editor.value}```"
     pprint(f"in_message = {in_message}")
 
-    # stream LLM tokens
-    # async for chunk in client.chat_stream(model=LLM_MODEL, messages=messages):
-    #     if chunk.choices[0].delta.content is not None:
-    #         message += chunk.choices[0].delta.content
-    with Timer() as t:
-        out_message = pipe(in_message)
-        yield out_message
+    from openai import OpenAI
+    # NOTE not using OpenAI, llamafile just exposes an OpenAI API compatible chat completions endpoint
+    client = OpenAI(
+        base_url="http://localhost:8080/v1",
+        api_key="NOT USING OPENAI, NO KEY REQUIRED"
+    )
+    completion = client.chat.completions.create(
+        stream=True,  # this time, we set stream=True
+        model="LLaMA_CPP",
+        temperature=0,
+        messages=[
+            {"role": "system",
+             "content": SYSTEM_MESSAGE},
+            {"role": "user", "content": in_message}
+        ]
+    )
 
-    pprint(f"out_message = {out_message}")
-    print(f"Duration to generate: {t.duration}")
+    # stream LLM tokens
+    message = ""
+    for chunk in completion:
+        if chunk.choices[0].delta.content is not None:
+            message += chunk.choices[0].delta.content
+            yield message
+
+    pprint(f"out_message = {message}")
 
     # extract code
-    llm_code = re.findall(r"```python\n(.*)\n```", out_message, re.DOTALL)[0]
+    llm_code = re.findall(r"```python\n(.*)\n```", message, re.DOTALL)[0]
     if llm_code.splitlines()[-1].strip() != "fig":
         llm_code += "\nfig"
     code_editor.value = llm_code
@@ -109,7 +115,8 @@ tabs = pn.Tabs(
     ("Code", code_editor),
 )
 
-sidebar = [chat_interface]
+sidebar = [chat_interface, pn.pane.Markdown("#### Examples \n"
+                                            "- Please add gridlines to this plot.")]
 main = [tabs]
 template = pn.template.FastListTemplate(
     sidebar=sidebar,
@@ -118,6 +125,6 @@ template = pn.template.FastListTemplate(
     main_layout=None,
     accent_base_color="#fd7000",
     header_background="#fd7000",
-    title="Chat with Plot"
+    title="Wikiplot"
 )
 template.servable()

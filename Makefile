@@ -18,5 +18,9 @@ convert-panel-to-webassembly:
 	panel convert hello_world/app.py --to pyodide-worker --out docs/hello_world
 
 serve-local-panel:
+	#panel serve hello_world/app.py --autoreload --show
+	panel serve wikiplot/app.py --autoreload --show
+
+serve-local-web-server:
 	python3 -m http.server
 	# and navigate to http://0.0.0.0:8000/panel_apps/hello_world/hello_world.html
