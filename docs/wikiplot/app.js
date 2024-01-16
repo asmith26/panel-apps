@@ -15,7 +15,6 @@ async function startApplication() {
   self.pyodide.globals.set("sendPatch", sendPatch);
   console.log("Loaded!");
   await self.pyodide.loadPackage("micropip");
-  await self.pyodide.loadPackage("matplotlib");
   const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'matplotlib']
   for (const pkg of env_spec) {
     let pkg_name;
@@ -29,6 +28,7 @@ async function startApplication() {
       await self.pyodide.runPythonAsync(`
         import micropip
         await micropip.install('${pkg}');
+        await micropip.install("matplotlib");
       `);
     } catch(e) {
       console.log(e)
