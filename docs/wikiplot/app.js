@@ -15,7 +15,8 @@ async function startApplication() {
   self.pyodide.globals.set("sendPatch", sendPatch);
   console.log("Loaded!");
   await self.pyodide.loadPackage("micropip");
-  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'matplotlib', 'numpy']
+  await pyodide.loadPackage("matplotlib");
+  const env_spec = ['https://cdn.holoviz.org/panel/wheels/bokeh-3.3.3-py3-none-any.whl', 'https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl', 'pyodide-http==0.2.1', 'matplotlib']
   for (const pkg of env_spec) {
     let pkg_name;
     if (pkg.endsWith('.whl')) {
@@ -47,31 +48,98 @@ from panel.io.pyodide import init_doc, write_doc
 
 init_doc()
 
-# https://panel.holoviz.org/how_to/notebook/examples/hello_world.html
+# Adapted from https://huggingface.co/spaces/ahuang11/tweak-mpl-chat/raw/main/app.py
+# Blog: https://blog.holoviz.org/posts/tweak-mpl-chat/ (also https://huggingface.co/blog/sophiamyang/tweak-mpl-chat)
 
 import panel as pn
+from panel.io.mime_render import exec_with_return
 
-pn.extension(template='fast')
+import matplotlib
+matplotlib.use('agg')
 
-import matplotlib.pyplot as plt
+pn.extension("codeeditor", sizing_mode="stretch_width")
+
+INITIAL_CODE = """
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
 
-def create_voltage_figure(figsize=(4,3)):
-       t = np.arange(0.0, 2.0, 0.01)
-       s = 1 + np.sin(2 * np.pi * t)
 
-       fig, ax = plt.subplots(figsize=figsize)
-       ax.plot(t, s)
+fig = plt.figure()
+ax = plt.axes(title="Plot Title", xlabel="X Label", ylabel="Y Label")
 
-       ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-              title='Voltage')
-       ax.grid()
+x = np.linspace(1, 10)
+y = np.sin(x)
+z = np.cos(x)
+c = np.log(x)
 
-       plt.close(fig) # CLOSE THE FIGURE!
-       return fig
+ax.plot(x, y, c="blue", label="sin")
+ax.plot(x, z, c="orange", label="cos")
 
-pn.pane.Matplotlib(create_voltage_figure(), dpi=144, tight=True)
-pn.Row(pn.pane.Matplotlib(create_voltage_figure(), dpi=144, tight=True)).servable()
+img = ax.scatter(x, c, c=c, label="log")
+plt.colorbar(img, label="Colorbar")
+plt.legend()
+
+# must have fig at the end!
+fig
+""".strip()
+
+
+async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
+    return "test"
+
+
+def update_plot(event):
+    matplotlib_pane.object = exec_with_return(event.new)
+
+
+# instantiate widgets and panes
+chat_interface = pn.chat.ChatInterface(
+    callback=callback,
+    show_clear=False,
+    show_undo=False,
+    show_button_name=False,
+    message_params=dict(
+        show_reaction_icons=False,
+        show_copy_icon=False,
+    ),
+    height=700,
+    callback_exception="verbose",
+)
+matplotlib_pane = pn.pane.Matplotlib(
+    exec_with_return(INITIAL_CODE),
+    sizing_mode="stretch_both",
+    tight=True,
+)
+code_editor = pn.widgets.CodeEditor(
+    value=INITIAL_CODE,
+    language="python",
+    sizing_mode="stretch_both",
+)
+
+# watch for code changes
+code_editor.param.watch(update_plot, "value")
+
+# lay them out
+tabs = pn.Tabs(
+    ("Plot", matplotlib_pane),
+    ("Code", code_editor),
+)
+
+sidebar = [chat_interface, pn.pane.Markdown("#### Examples \\n"
+                                            "- Please add gridlines to this plot.")]
+main = [tabs]
+template = pn.template.FastListTemplate(
+    sidebar=sidebar,
+    main=main,
+    sidebar_width=600,
+    main_layout=None,
+    accent_base_color="#fd7000",
+    header_background="#fd7000",
+    title="Wikiplot"
+)
+template.servable()
 
 
 await write_doc()
