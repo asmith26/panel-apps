@@ -50,13 +50,17 @@ init_doc()
 # Adapted from https://huggingface.co/spaces/ahuang11/tweak-mpl-chat/raw/main/app.py
 # Blog: https://blog.holoviz.org/posts/tweak-mpl-chat/ (also https://huggingface.co/blog/sophiamyang/tweak-mpl-chat)
 
-import matplotlib
 import micropip
 import panel as pn
 from panel.io.mime_render import exec_with_return
 
-micropip.install("matplotlib")
-matplotlib.use('agg')
+
+async def main():
+    await micropip.install("matplotlib")
+    import matplotlib
+    matplotlib.use('agg')
+main()
+
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 INITIAL_CODE = """
@@ -83,7 +87,7 @@ fig
 """.strip()
 
 
-def callback(content: str, user: str, instance: pn.chat.ChatInterface):
+async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
     return "test"
 
 
