@@ -28,7 +28,6 @@ async function startApplication() {
       await self.pyodide.runPythonAsync(`
         import micropip
         await micropip.install('${pkg}');
-        await micropip.install("matplotlib");
       `);
     } catch(e) {
       console.log(e)
@@ -137,7 +136,7 @@ template = pn.template.FastListTemplate(
     main_layout=None,
     accent_base_color="#fd7000",
     header_background="#fd7000",
-    title="Wikiplot"
+    title="Create a plot"
 )
 template.servable()
 
