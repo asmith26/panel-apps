@@ -24,3 +24,11 @@ serve-local-panel:
 serve-local-web-server:
 	python3 -m http.server
 	# and navigate to http://0.0.0.0:8000/docs/create_a_plot/app.html
+
+
+## Llamafile
+serve-local-llamafile:
+	modal serve create_a_plot/serve_llamafile.py
+
+deploy-modal-llamafile:
+	modal deploy create_a_plot/serve_llamafile.py

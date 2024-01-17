@@ -5,7 +5,7 @@ import pathlib
 import modal
 
 # Container Dependencies
-# installs dependencies in app.py and `asgiproxy` to proxy the llamafile server.
+# installs dependencies for llamafile and `asgiproxy` to proxy the llamafile server.
 image = (
     modal.Image.debian_slim()
     .apt_install("git")
@@ -91,10 +91,10 @@ def run():
 # Run it "ephemerally" with `modal serve`. This will
 # run a local process that watches your files and updates the app if anything changes.
 #
-# modal serve serve_panel.py
+# modal serve serve_llamafile.py
 
 # Once you're happy with your changes, you can deploy your application with
 # If successful, this will print a URL for your app, that you can navigate to from
 # your browser 🎉 .
 #
-# modal deploy serve_panel.py
+# modal deploy serve_llamafile.py
