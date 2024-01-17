@@ -6,3 +6,5 @@ dependencies:
   - openai
   - matplotlib
   - panel
+  - pip:
+      - modal-client
