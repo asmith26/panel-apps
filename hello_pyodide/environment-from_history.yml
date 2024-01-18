@@ -1,0 +1,6 @@
+name: hello-pyodide
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - panel
