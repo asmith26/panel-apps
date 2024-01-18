@@ -4,9 +4,11 @@ import re
 
 import panel as pn
 from panel.io.mime_render import exec_with_return
-
+from ollama import AsyncClient
 #import matplotlib
 #matplotlib.use('agg')  # required for pyodide
+
+client = AsyncClient(base_url='http://localhost:11434')
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
@@ -44,9 +46,8 @@ fig
 #def callback(content: str, user: str, instance: pn.chat.ChatInterface):
 async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
     #return "test"
-    from ollama import AsyncClient
-    client = AsyncClient(base_url='http://localhost:11434')
     in_message = f"{content}\n\n```python\n{code_editor.value}```"
+
     # stream LLM tokens
     message = ""
     async for part in await client.generate(
