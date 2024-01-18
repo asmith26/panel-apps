@@ -1,4 +1,4 @@
-name: hello-pyodide
+name: hello_pyodide
 channels:
   - conda-forge
 dependencies:

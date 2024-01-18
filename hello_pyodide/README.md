@@ -4,7 +4,7 @@ To test locally, run:
 
 ```bash
 make env-create-from-lock
-mamba activate hello-pyodide
+mamba activate hello_pyodide
 make convert-panel-to-web
 make local-web-server  # and navigate to http://0.0.0.0:8000/docs/hello_pyodide/app.html
 ```
