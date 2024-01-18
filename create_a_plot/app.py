@@ -5,8 +5,8 @@ import re
 import panel as pn
 from panel.io.mime_render import exec_with_return
 
-# import matplotlib
-# matplotlib.use('agg')  # required for pyodide
+#import matplotlib
+#matplotlib.use('agg')  # required for pyodide
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
@@ -41,15 +41,15 @@ fig
 """.strip()
 
 
-def callback(content: str, user: str, instance: pn.chat.ChatInterface):
-# async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
-    ### return "test"
-    from ollama import Client
-    client = Client(base_url='http://localhost:11434')
+#def callback(content: str, user: str, instance: pn.chat.ChatInterface):
+async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
+    #return "test"
+    from ollama import AsyncClient
+    client = AsyncClient(base_url='http://localhost:11434')
     in_message = f"{content}\n\n```python\n{code_editor.value}```"
     # stream LLM tokens
     message = ""
-    for part in client.generate(
+    async for part in await client.generate(
         model='mistral',
         system=SYSTEM_MESSAGE,
         prompt=in_message,
