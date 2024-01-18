@@ -41,7 +41,7 @@ def spawn_server():
             "--port",
             PORT,
             "--allow-websocket-origin",
-            "*",
+            "asmith26--create-a-plot-run-dev.modal.run ",
         ]
     )
     # Poll until webserver accepts connections before running inputs.
