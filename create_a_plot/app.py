@@ -45,28 +45,28 @@ fig
 
 #def callback(content: str, user: str, instance: pn.chat.ChatInterface):
 async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
-    #return "test"
-    in_message = f"{content}\n\n```python\n{code_editor.value}```"
-
-    # stream LLM tokens
-    message = ""
-    async for part in await client.generate(
-        model='mistral',
-        system=SYSTEM_MESSAGE,
-        prompt=in_message,
-        stream=True,
-        options={
-            'temperature': 0,
-        },
-    ):
-        message += part['response']
-        yield message
-
-    # extract code
-    llm_code = re.findall(r"```python\n(.*)\n```", message, re.DOTALL)[0]
-    if llm_code.splitlines()[-1].strip() != "fig":
-        llm_code += "\nfig"
-    code_editor.value = llm_code
+    return "test"
+    # in_message = f"{content}\n\n```python\n{code_editor.value}```"
+    #
+    # # stream LLM tokens
+    # message = ""
+    # async for part in await client.generate(
+    #     model='mistral',
+    #     system=SYSTEM_MESSAGE,
+    #     prompt=in_message,
+    #     stream=True,
+    #     options={
+    #         'temperature': 0,
+    #     },
+    # ):
+    #     message += part['response']
+    #     yield message
+    #
+    # # extract code
+    # llm_code = re.findall(r"```python\n(.*)\n```", message, re.DOTALL)[0]
+    # if llm_code.splitlines()[-1].strip() != "fig":
+    #     llm_code += "\nfig"
+    # code_editor.value = llm_code
 
 
 def update_plot(event):

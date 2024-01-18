@@ -5,26 +5,27 @@ import pathlib
 import modal
 
 # Container Dependencies
-# installs dependencies for llamafile and `asgiproxy` to proxy the llamafile server.
+# installs dependencies for app, ollama and `asgiproxy` to proxy the llamafile server.
 image = (
     modal.Image.debian_slim()
     .apt_install("git")
     # Use fork until https://github.com/valohai/asgiproxy/pull/11 is merged.
     .pip_install("git+https://github.com/modal-labs/asgiproxy.git")
+    .pip_install_from_requirements("requirements.txt")
 )
-stub = modal.Stub(name="create_a_plot-llamafile", image=image)
+stub = modal.Stub(name="create_a_plot", image=image)
 
-# Mount the llamafile script inside the container at a pre-defined path using a Modal mount
-llamafile_local_path = pathlib.Path(__file__).parent / "mistral-7b-instruct-v0.2.Q5_K_M.llamafile"
-llamafile_remote_path = pathlib.Path("/root/mistral-7b-instruct-v0.2.Q5_K_M.llamafile")
-llamafile_mount = modal.Mount.from_local_file(llamafile_local_path, llamafile_remote_path)
+# Mount the app script inside the container at a pre-defined path using a Modal mount
+app_local_path = pathlib.Path(__file__).parent / "app.py"
+app_remote_path = pathlib.Path("/root/app.py")
+app_mount = modal.Mount.from_local_file(app_local_path, app_remote_path)
 
-# Spawning the llamafile
-# Inside the container, we will run the llamafile in a background subprocess using
+# Spawning the Panel server TODO ALSO OLLAMA?
+# Inside the container, we will run the Panel server in a background subprocess using
 # `subprocess.Popen`. Here we define `spawn_server()` to do this and then poll until the server
 # is ready to accept connections.
-HOST = "0.0.0.0"
-PORT = "8080"
+HOST = "127.0.0.1"
+PORT = "8000"
 
 
 def spawn_server():
@@ -32,12 +33,15 @@ def spawn_server():
     import subprocess
     process = subprocess.Popen(
         [
-            "bash",
-            "./mistral-7b-instruct-v0.2.Q5_K_M.llamafile",
-            "--host",
+            "panel",
+            "serve",
+            str(app_remote_path),
+            "--address",
             HOST,
             "--port",
             PORT,
+            "--allow-websocket-origin",
+            "*",
         ]
     )
     # Poll until webserver accepts connections before running inputs.
@@ -65,7 +69,7 @@ def spawn_server():
 @stub.function(
     # Allows 1 concurrent requests per container.
     allow_concurrent_inputs=1,  # was 100
-    mounts=[llamafile_mount],
+    mounts=[app_mount],
 )
 @modal.asgi_app()
 def run():
@@ -85,16 +89,3 @@ def run():
     )()
     proxy_context = ProxyContext(config)
     return make_simple_proxy_app(proxy_context)
-
-
-# ## Iterate and Deploy
-# Run it "ephemerally" with `modal serve`. This will
-# run a local process that watches your files and updates the app if anything changes.
-#
-# modal serve serve_llamafile.py
-
-# Once you're happy with your changes, you can deploy your application with
-# If successful, this will print a URL for your app, that you can navigate to from
-# your browser 🎉 .
-#
-# modal deploy serve_llamafile.py
