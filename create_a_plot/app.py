@@ -1,13 +1,12 @@
 # Adapted from https://huggingface.co/spaces/ahuang11/tweak-mpl-chat/raw/main/app.py
 # Blog: https://blog.holoviz.org/posts/tweak-mpl-chat/ (also https://huggingface.co/blog/sophiamyang/tweak-mpl-chat)
 import re
-# from pprint import pprint
 
 import panel as pn
 from panel.io.mime_render import exec_with_return
 
-import matplotlib
-matplotlib.use('agg')
+# import matplotlib
+# matplotlib.use('agg')  # required for pyodide
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
@@ -45,35 +44,22 @@ fig
 def callback(content: str, user: str, instance: pn.chat.ChatInterface):
 # async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
     ### return "test"
+    from ollama import Client
+    client = Client(base_url='http://localhost:11434')
     in_message = f"{content}\n\n```python\n{code_editor.value}```"
-    # pprint(f"in_message = {in_message}")
-
-    from openai import OpenAI
-    # NOTE not using OpenAI, llamafile just exposes an OpenAI API compatible chat completions endpoint
-    client = OpenAI(
-        base_url="http://localhost:8080/v1",
-        api_key="NOT USING OPENAI, NO KEY REQUIRED"
-    )
-    completion = client.chat.completions.create(
-        stream=True,  # this time, we set stream=True
-        model="LLaMA_CPP",
-        temperature=0,
-        messages=[
-            {"role": "system",
-             "content": SYSTEM_MESSAGE},
-            {"role": "user", "content": in_message}
-        ]
-    )
-
     # stream LLM tokens
     message = ""
-    # async for chunk in completion:
-    for chunk in completion:
-        if chunk.choices[0].delta.content is not None:
-            message += chunk.choices[0].delta.content
-            yield message
-
-    # pprint(f"out_message = {message}")
+    for part in client.generate(
+        model='mistral',
+        system=SYSTEM_MESSAGE,
+        prompt=in_message,
+        stream=True,
+        options={
+            'temperature': 0,
+        },
+    ):
+        message += part['response']
+        yield message
 
     # extract code
     llm_code = re.findall(r"```python\n(.*)\n```", message, re.DOTALL)[0]
