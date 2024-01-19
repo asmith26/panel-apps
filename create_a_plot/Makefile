@@ -11,6 +11,7 @@ env-update:                                  ## Install/update pip requirements
 pip-freeze:                                  ## Freeze pip requirements
 	pip freeze > requirements.txt
 
+
 # Panel
 serve-local-panel:                           ## Launch a local panel server (with debug options)
 	panel serve app.py --autoreload --show
@@ -18,7 +19,7 @@ serve-local-panel:                           ## Launch a local panel server (wit
 
 # Modal
 modal-serve:                                 ## Launch a modal server that watches files and updates app on changes
-	modal serve serve_modal.py
+	modal serve ../utils/modal_app.py
 
 modal-deploy:                                ## Deploys application to modal
-	modal deploy serve_modal.py
+	modal deploy ../utils/modal_app.py

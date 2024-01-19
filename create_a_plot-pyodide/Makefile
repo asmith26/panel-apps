@@ -5,11 +5,12 @@ env-create:                                  ## Create mamba env
 	mamba create -n create_a_plot-pyodide python=3.11
 
 env-update:                                  ## Install/update pip requirements
-	pip install -r requirements.txt
+	pip install -r ../create_a_plot/requirements.txt
 	pip install modal
 
 pip-freeze:                                  ## Freeze pip requirements
 	echo "Please freeze requirements via ../create_a_plot/Makefile"
+
 
 # Panel
 convert-panel-to-web:                        ## Generates a static web application from panel (via pyodide)
@@ -27,7 +28,7 @@ local-web-server:                            ## Launch a local web server
 
 # Modal
 modal-serve:                                 ## Launch a modal server that watches files and updates app on changes
-	modal serve serve_modal.py
+	modal serve ../utils/modal_app.py
 
 modal-deploy:                                ## Deploys application to modal
-	modal deploy serve_modal.py
+	modal deploy ../utils/modal_app.py

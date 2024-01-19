@@ -58,7 +58,7 @@ def callback(content: str, user: str, instance: pn.chat.ChatInterface):
         },
     }
 
-    response = requests.post("http://localhost:11434/api/generate", json=data)
+    response = requests.post("https://asmith26--ollama-server-create-asgi-dev.modal.run/api/generate", json=data)
     responses = response.content.decode("utf-8").strip().split("\n")
 
     # stream LLM tokens
