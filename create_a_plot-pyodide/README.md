@@ -3,14 +3,14 @@ This provides an example of deploying the [create_a_plot](../create_a_plot) Pane
 To test locally, run:
 
 ```bash
-make env-create
-mamba activate create_a_plot-pyodide
-make env-update
+$ make env-create
+$ mamba activate create_a_plot-pyodide
+$ make env-update
 
 TODO DEPLOY MODAL
 
-make convert-panel-to-web
-make local-web-server  # and navigate to http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
+$ make convert-panel-to-web
+$ make local-web-server  # and navigate to http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
 ```
 
 Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settings > Pages`. In the 
