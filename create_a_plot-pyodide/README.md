@@ -1,12 +1,16 @@
-This provides an example of deploying a Panel application to GitHub Pages via Pyodide.
+This provides an example of deploying the [create_a_plot](../create_a_plot) Panel application to GitHub Pages via Pyodide.
 
 To test locally, run:
 
 ```bash
-make env-create-from-lock
-mamba activate hello_pyodide
+make env-create
+mamba activate create_a_plot-pyodide
+make env-update
+
+TODO DEPLOY MODAL
+
 make convert-panel-to-web
-make local-web-server  # and navigate to http://0.0.0.0:8000/docs/hello_pyodide/app.html
+make local-web-server  # and navigate to http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
 ```
 
 Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settings > Pages`. In the 
@@ -15,4 +19,4 @@ Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settin
 ![Deploying GitHub Pages](../images/deploying_github_pages.png)
 
 GitHub Actions will now deploy to GitHub Pages automatically on a `git push` to 
-https://asmith26.github.io/panel-apps/hello_pyodide/app.html
+https://asmith26.github.io/panel-apps/create_a_plot-pyodide/app.html
