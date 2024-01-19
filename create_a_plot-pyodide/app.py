@@ -9,7 +9,6 @@ from panel.io.mime_render import exec_with_return
 import matplotlib
 matplotlib.use('agg')  # required for pyodide
 
-
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
