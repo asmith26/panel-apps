@@ -1,8 +1,5 @@
 # Panel Apps 
 
-- Hello World https://asmith26.github.io/panel-apps/hello_world/app.html
-- Create a plot https://asmith26.github.io/panel-apps/create_a_plot/app.html
-
-## Gotchas
-- May need to clear cache when viewing apps at https://asmith26.github.io/ (doesn't seem to be a problem when testing
-   locally).
+- [Hello Pyodide](hello_pyodide) 
+- [Create a plot](create_a_plot)
+- [Create a plot - Pyodide](create_a_plot-pyodide)

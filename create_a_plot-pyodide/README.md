@@ -52,3 +52,6 @@ Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settin
 
 GitHub Actions will now deploy to GitHub Pages automatically on a `git push` to 
 https://asmith26.github.io/panel-apps/create_a_plot-pyodide/app.html
+
+> Note: May need to clear cache when viewing apps at https://asmith26.github.io/ (doesn't seem to be a problem when testing
+   locally).
