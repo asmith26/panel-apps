@@ -67,6 +67,7 @@ image = (
             'ENTRYPOINT ["/opt/entrypoint.sh"]',
         ]
     )
+    .env({"OLLAMA_ORIGINS": "*"})
     .run_function(download_model)
 )
 
