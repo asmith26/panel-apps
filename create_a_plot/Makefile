@@ -18,7 +18,7 @@ serve-local-panel:                           ## Launch a local panel server (wit
 
 
 # Modal
-modal-serve:                                 ## Launch a modal server that watches files and updates app on changes
+modal-serve:                                 ## Launch a modal server that watches files and updates app on change
 	modal serve ../utils/modal_app.py
 
 modal-deploy:                                ## Deploys application to modal

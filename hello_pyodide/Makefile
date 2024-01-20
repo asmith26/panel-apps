@@ -22,5 +22,5 @@ serve-local-panel:                           ## Launch a local panel server (wit
 
 # Web
 local-web-server:                            ## Launch a local web server
+	echo "Navigate to http://0.0.0.0:8000/docs/hello_pyodide/app.html"
 	cd .. && python3 -m http.server
-	# and navigate to http://0.0.0.0:8000/docs/hello_pyodide/app.html

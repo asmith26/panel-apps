@@ -22,12 +22,12 @@ serve-local-panel:                           ## Launch a local panel server (wit
 
 # Web
 local-web-server:                            ## Launch a local web server
+	echo "Navigate to http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html"
 	cd .. && python3 -m http.server
-	# and navigate to http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
 
 
 # Modal
-modal-serve:                                 ## Launch a modal server that watches files and updates app on changes
+modal-serve:                                 ## Launch a modal server that watches files and updates app on change
 	modal serve ../utils/modal_app.py
 
 modal-deploy:                                ## Deploys application to modal

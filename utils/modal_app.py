@@ -60,7 +60,7 @@ image = (
     )
     .pip_install("requests")  # for healthchecks
     .pip_install("httpx")  # for reverse proxy
-    .copy_local_file("./entrypoint.sh", "/opt/entrypoint.sh")
+    .copy_local_file("../utils/entrypoint.sh", "/opt/entrypoint.sh")
     .dockerfile_commands(
         [
             "RUN chmod a+x /opt/entrypoint.sh",
@@ -127,7 +127,16 @@ async def proxy(request: Request, path: str):
 
         rp_resp = await client.send(rp_req, stream=True)
         return StreamingResponse(
-            rp_resp.aiter_raw(), media_type="text/event-stream", background=BackgroundTask(rp_resp.aclose())
+            rp_resp.aiter_raw(),
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+                "Content-Type": "text/event-stream",
+                "Access-Control-Allow-Origin": "*",  # Allows all origins
+                "Access-Control-Allow-Methods": "GET",  # Only allow GET method
+                "Access-Control-Allow-Headers": "Content-Type",  # Specify allowed headers
+            },
+            media_type="text/event-stream", background=BackgroundTask(rp_resp.aclose())
         )
 
     # These two methods support streaming responses.
