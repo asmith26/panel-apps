@@ -125,8 +125,8 @@ async def proxy(request: Request, path: str):
             content=request.stream(),
             json=await request.json() if len(await request.body()) > 0 else None,
         )
-
         rp_resp = await client.send(rp_req, stream=True)
+        background_task = BackgroundTask(rp_resp.aclose)
         return StreamingResponse(
             rp_resp.aiter_raw(),
             headers={
@@ -137,7 +137,7 @@ async def proxy(request: Request, path: str):
                 "Access-Control-Allow-Methods": "GET",  # Only allow GET method
                 "Access-Control-Allow-Headers": "Content-Type",  # Specify allowed headers
             },
-            media_type="text/event-stream", background=BackgroundTask(rp_resp.aclose())
+            media_type="text/event-stream", background=background_task
         )
 
     # These two methods support streaming responses.
