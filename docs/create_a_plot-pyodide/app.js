@@ -58,7 +58,6 @@ from panel.io.mime_render import exec_with_return
 import matplotlib
 matplotlib.use('agg')  # required for pyodide
 
-
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
 SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
@@ -108,7 +107,7 @@ def callback(content: str, user: str, instance: pn.chat.ChatInterface):
         },
     }
 
-    response = requests.post("http://localhost:11434/api/generate", json=data)
+    response = requests.post("https://asmith26--ollama-server-create-asgi-dev.modal.run/api/generate", json=data)
     responses = response.content.decode("utf-8").strip().split("\\n")
 
     # stream LLM tokens
