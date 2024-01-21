@@ -119,7 +119,7 @@ def callback(content: str, user: str, instance: pn.chat.ChatInterface):
     # extract code
     llm_code = re.findall(r"\`\`\`python\\n(.*)\\n\`\`\`", message, re.DOTALL)[0]
     if llm_code.splitlines()[-1].strip() != "fig":
-        llm_code += "\\nfig"
+        llm_code += "\\nfig\\n"
     code_editor.value = llm_code
 
 
