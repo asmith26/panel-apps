@@ -29,7 +29,7 @@ $ make convert-panel-to-web
 
 #### 3. Install Ollama and setup
 
-See [this README](../create_a_plot/README.md) for details (section **Run Panel and Ollama locally** step 1).
+See [this README](../create_a_plot/README.md) for details (see step 2 of the section **Run Panel and Ollama locally**).
 
 #### 3. Try the app
 
