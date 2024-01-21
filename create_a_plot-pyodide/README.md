@@ -41,11 +41,11 @@ the app should now work: http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
 Run a local webserver with `make local-web-server`.
 
 To spin up an Ollama server listening via Modal, run `make modal-serve`. Once the Modal app has started, you local 
-webserver should be able to connect to it (note with this script the URL in `app.py` takes the form `IP-ADDRESS`, not `IP-ADDRESS:11434`).
+webserver should be able to connect to it (note with this setup the URL in `app.py` takes the form `IP-ADDRESS`, not `IP-ADDRESS:11434`).
 
 ## Run app through GitHub Pages and an Ollama server on Modal
 
-Spin up an Ollama server a per the previous section.
+Spin up an Ollama server on Modal as per the previous section (`make modal-serve`, or deploy with `make modal-deploy`).
 
 Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settings > Pages`. In the 
 **Build and deployment** section, set **Branch** to `main` and folder to `/docs`:
@@ -55,5 +55,5 @@ Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settin
 GitHub Actions will now deploy to GitHub Pages automatically on a `git push` to 
 https://asmith26.github.io/panel-apps/create_a_plot-pyodide/app.html
 
-> Note: May need to clear cache when viewing apps at https://asmith26.github.io/ (doesn't seem to be a problem when testing
+> Note: May need to clear cache when viewing apps at https://asmith26.github.io/ (the cache doesn't seem to be a problem when testing
    locally).
