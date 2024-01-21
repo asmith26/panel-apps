@@ -59,15 +59,13 @@ import matplotlib
 matplotlib.use('agg')  # required for pyodide
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
-
 SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
         "with a strong background in matplotlib. " \
         "Your primary goal is to assist the user " \
-        "to edit the code based on a user request " \
+        "in edit the code based on user request " \
         "using best practices. Simply provide code " \
-        "in code fences (\`\`\`python). You must have \`fig\\n\` " \
-        "as the last line of code. Never call fig.close() " \
-        "and never have more than one set of code fences."
+        "in code fences (\`\`\`python). You must have \`fig\` " \
+        "as the last line of code"
 INITIAL_CODE = """
 import numpy as np
 import matplotlib
@@ -132,14 +130,14 @@ def update_plot(event):
 # instantiate widgets and panes
 chat_interface = pn.chat.ChatInterface(
     callback=callback,
-    show_clear=False,
+    show_clear=True,
     show_undo=False,
     show_button_name=False,
     message_params=dict(
         show_reaction_icons=False,
         show_copy_icon=False,
     ),
-    height=500,
+    height=700,
     callback_exception="verbose",
 )
 matplotlib_pane = pn.pane.Matplotlib(
