@@ -1,13 +1,15 @@
 This provides an example of deploying the [create_a_plot](../create_a_plot) Panel application to a webserver (e.g. 
-GitHub Pages) via Pyodide alongside Ollama.
+GitHub Pages) via Pyodide alongside an Ollama Server.
 
 It is also possible to run this app via a Panel server. See [this README](../create_a_plot/README.md) for details.
 
-* [Run webserver and Ollama locally](#run-webserver-and-ollama-locally)
-* [Run local webserver with Ollama on Modal](#run-local-webserver-and-ollama-on-modal)
-* [Run on GitHub Pages and Ollama Modal](#run-on-github-pages-and-ollama-on-modal)
+The instructions below assume you have the [`mamba`](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) package manager installed.
 
-## Run webserver and Ollama locally
+* [Start app using a local webserver and a local Ollama server](#Start-app-using-a-local-webserver-and-a-local-Ollama-server)
+* [Start app using a local webserver and an Ollama server on Modal](#Start-app-using-a-local-webserver-and-an-Ollama-server-on-Modal)
+* [Run app through GitHub Pages and an Ollama server on Modal](#Run-app-through-GitHub-Pages-and-an-Ollama-server-on-Modal)
+
+## Start app using a local webserver and a local Ollama server
 
 #### 1. Create environment and start a local webserver
 
@@ -34,14 +36,14 @@ See [this README](../create_a_plot/README.md) for details (section **Run Panel a
 Assuming the `app.py` code is pointing to the correct IP address for the Ollama service (e.g. http://localhost:11434), 
 the app should now work: http://0.0.0.0:8000/docs/create_a_plot-pyodide/app.html
 
-## Run local webserver with Ollama on Modal
+## Start app using a local webserver and an Ollama server on Modal
 
 Run a local webserver with `make local-web-server`.
 
 To spin up an Ollama server listening via Modal, run `make modal-serve`. Once the Modal app has started, you local 
 webserver should be able to connect to it (note with this script the URL in `app.py` takes the form `IP-ADDRESS`, not `IP-ADDRESS:11434`).
 
-## Run on GitHub Pages and Ollama Modal
+## Run app through GitHub Pages and an Ollama server on Modal
 
 Spin up an Ollama server a per the previous section.
 
