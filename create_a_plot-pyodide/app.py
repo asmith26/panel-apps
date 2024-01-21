@@ -16,8 +16,9 @@ SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
         "Your primary goal is to assist the user " \
         "to edit the code based on a user request " \
         "using best practices. Simply provide code " \
-        "in code fences (```python). You must have `fig` " \
-        "as the last line of code and never call fig.close()"
+        "in code fences (```python). You must have `fig\n` " \
+        "as the last line of code. Never call fig.close() " \
+        "and never have more than one set of code fences."
 INITIAL_CODE = """
 import numpy as np
 import matplotlib
