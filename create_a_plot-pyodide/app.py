@@ -20,7 +20,7 @@ SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
 INITIAL_CODE = """
 import numpy as np
 import matplotlib
-matplotlib.use('agg')  # required for pyodide
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 fig = plt.figure()
