@@ -14,10 +14,10 @@ pn.extension("codeeditor", sizing_mode="stretch_width")
 SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
         "with a strong background in matplotlib. " \
         "Your primary goal is to assist the user " \
-        "in edit the code based on user request " \
+        "to edit the code based on a user request " \
         "using best practices. Simply provide code " \
         "in code fences (```python). You must have `fig` " \
-        "as the last line of code"
+        "as the last line of code and never call fig.close()"
 INITIAL_CODE = """
 import numpy as np
 import matplotlib
@@ -89,7 +89,7 @@ chat_interface = pn.chat.ChatInterface(
         show_reaction_icons=False,
         show_copy_icon=False,
     ),
-    # height=700,
+    height=500,
     callback_exception="verbose",
 )
 matplotlib_pane = pn.pane.Matplotlib(
@@ -118,7 +118,7 @@ main = [tabs]
 template = pn.template.FastListTemplate(
     sidebar=sidebar,
     main=main,
-    sidebar_width=400,
+    sidebar_width=500,
     main_layout=None,
     accent_base_color="#fd7000",
     header_background="#fd7000",
