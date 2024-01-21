@@ -64,12 +64,13 @@ SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
         "Your primary goal is to assist the user " \
         "in edit the code based on user request " \
         "using best practices. Simply provide code " \
-        "in code fences (\`\`\`python). You must have \`fig\` " \
-        "as the last line of code"
+        "in code fences (\`\`\`python). You must start your " \
+         " code with \`import matplotlib\\nmatplotlib.use('agg')\\n\`" \
+        " and have \`fig\\n\` as the last line of code"
 INITIAL_CODE = """
-import numpy as np
 import matplotlib
 matplotlib.use('agg')
+import numpy as np
 import matplotlib.pyplot as plt
 
 fig = plt.figure()
