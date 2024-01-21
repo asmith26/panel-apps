@@ -138,7 +138,7 @@ chat_interface = pn.chat.ChatInterface(
         show_reaction_icons=False,
         show_copy_icon=False,
     ),
-    height=700,
+    # height=700,
     callback_exception="verbose",
 )
 matplotlib_pane = pn.pane.Matplotlib(
@@ -167,7 +167,7 @@ main = [tabs]
 template = pn.template.FastListTemplate(
     sidebar=sidebar,
     main=main,
-    sidebar_width=600,
+    sidebar_width=400,
     main_layout=None,
     accent_base_color="#fd7000",
     header_background="#fd7000",
