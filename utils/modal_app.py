@@ -92,7 +92,7 @@ with stub.image.imports():
 app = FastAPI()
 
 
-@stub.function(container_idle_timeout=180)
+@stub.function(gpu="T4", container_idle_timeout=300)
 @modal.asgi_app()
 def create_asgi():
     return app
