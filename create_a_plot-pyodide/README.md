@@ -7,7 +7,7 @@ The instructions below assume you have the [`mamba`](https://mamba.readthedocs.i
 
 * [Start app using a local webserver and a local Ollama server](#Start-app-using-a-local-webserver-and-a-local-Ollama-server)
 * [Start app using a local webserver and an Ollama server on Modal](#Start-app-using-a-local-webserver-and-an-Ollama-server-on-Modal)
-* [Run app through GitHub Pages and an Ollama server on Modal](#Run-app-through-GitHub-Pages-and-an-Ollama-server-on-Modal)
+* [Run app on GitHub Pages and an Ollama server on Modal](#Run-app-on-GitHub-Pages-and-an-Ollama-server-on-Modal)
 
 ## Start app using a local webserver and a local Ollama server
 
@@ -43,7 +43,7 @@ Run a local webserver with `make local-web-server`.
 To spin up an Ollama server listening via Modal, run `make modal-serve`. Once the Modal app has started, you local 
 webserver should be able to connect to it (note with this setup the URL in `app.py` takes the form `IP-ADDRESS`, not `IP-ADDRESS:11434`).
 
-## Run app through GitHub Pages and an Ollama server on Modal
+## Run app on GitHub Pages and an Ollama server on Modal
 
 Spin up an Ollama server on Modal as per the previous section (`make modal-serve`, or deploy with `make modal-deploy`).
 
