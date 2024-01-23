@@ -50,7 +50,7 @@ Spin up an Ollama server on Modal as per the previous section (`make modal-serve
 Once happy, git commit and push to GitHub. To enable GitHub Pages, go to `Settings > Pages`. In the 
 **Build and deployment** section, set **Branch** to `main` and folder to `/docs`:
 
-![Deploying GitHub Pages](../images/deploying_github_pages.png)
+![Deploying GitHub Pages](../media/deploying_github_pages.png)
 
 GitHub Actions will now deploy to GitHub Pages automatically on a `git push` to 
 https://asmith26.github.io/panel-apps/create_a_plot-pyodide/app.html
