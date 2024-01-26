@@ -19,23 +19,55 @@ SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
          " code with `import matplotlib\nmatplotlib.use('agg')\n`" \
         " and have `fig\n` as the last line of code"
 INITIAL_CODE = """
-import numpy as np
-import plotly.graph_objs as go
+from dotbimpy import Color, Element, File, Mesh, Rotation, Vector
 
-xx = np.linspace(-3.5, 3.5, 100)
-yy = np.linspace(-3.5, 3.5, 100)
-x, y = np.meshgrid(xx, yy)
-z = np.exp(-(x-1)**2-y**2)-(x**3+y**4-x/5)*np.exp(-(x**2+y**2))
+# Mesh properties
+coordinates = [
+    # Base
+    0.0, 0.0, 0.0,
+    10.0, 0.0, 0.0,
+    10.0, 10.0, 0.0,
+    0.0, 10.0, 0.0,
 
-surface = go.Surface(z=z)
-layout = go.Layout(
-    autosize=False,
-    width=800,
-    height=800,
-    margin=dict(t=50, b=50, r=50, l=50)
-)
+    # Top
+    5.0, 5.0, 4.0
+]
 
-fig = dict(data=[surface], layout=layout)
+indices = [
+    # Base faces
+    0, 1, 2,
+    0, 2, 3,
+
+    # Side faces
+    0, 1, 4,
+    1, 2, 4,
+    2, 3, 4,
+    3, 0, 4
+]
+
+# Instantiate Mesh object
+mesh = Mesh(mesh_id=0, coordinates=coordinates, indices=indices)
+
+# Instantiate Element object
+element = Element(mesh_id=0,
+                  vector=Vector(x=0, y=0, z=0),
+                  guid="76e051c1-1bd7-44fc-8e2e-db2b64055068",
+                  info={"Name": "Pyramid"},
+                  rotation=Rotation(qx=0, qy=0, qz=0, qw=1.0),
+                  type="Structure",
+                  color=Color(r=255, g=255, b=0, a=255))
+
+# File meta data
+file_info = {
+    "Author": "John Doe",
+    "Date": "28.09.1999"
+}
+
+# Instantiate and save File object
+file = File("1.0.0", meshes=[mesh], elements=[element], info=file_info)
+
+fig = file.create_plotly_figure()
+fig.layout.autosize = True
 fig
 """.strip()
 
