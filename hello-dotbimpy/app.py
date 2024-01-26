@@ -141,13 +141,7 @@ tabs = pn.Tabs(
 )
 
 sidebar = [chat_interface, pn.pane.Markdown("#### Examples \n"
-                                            "- Please add gridlines to this plot.\n\n"
-                                            "- Plot just a single sine curve.\n"
-                                            "- Rename the plot title to 'A Beautiful Sine Curve'.\n"
-                                            "- Rename the y axis to 'Amplitude'.\n"
-                                            "- Change the colour of the line to orange.\n"
-                                            "- Please add gridlines to this plot.\n"
-                                            "- Actually remove the gridlines.")]
+                                            "- TODO")]
 main = [tabs]
 template = pn.template.FastListTemplate(
     sidebar=sidebar,
@@ -156,6 +150,6 @@ template = pn.template.FastListTemplate(
     main_layout=None,
     accent_base_color="#fd7000",
     header_background="#fd7000",
-    title="Create a plot"
+    title="Create a dotbimpy"
 )
 template.servable()
