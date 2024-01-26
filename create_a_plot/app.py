@@ -4,20 +4,23 @@ import re
 
 import panel as pn
 from panel.io.mime_render import exec_with_return
-from ollama import AsyncClient
+
+from modal_all import Model
+
+# from ollama import AsyncClient
 
 
-client = AsyncClient(base_url='http://localhost:11434')
+# client = AsyncClient(base_url='https://asmith26--ollama-server-create-asgi-dev.modal.run')
 
 pn.extension("codeeditor", sizing_mode="stretch_width")
 
-SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
-        "with a strong background in matplotlib. " \
-        "Your primary goal is to assist the user " \
-        "in edit the code based on user request " \
-        "using best practices. Simply provide code " \
-        "in code fences (```python). You must have `fig` " \
-        "as the last line of code"
+# SYSTEM_MESSAGE = "You are a renowned data visualization expert " \
+#         "with a strong background in matplotlib. " \
+#         "Your primary goal is to assist the user " \
+#         "in edit the code based on user request " \
+#         "using best practices. Simply provide code " \
+#         "in code fences (```python). You must have `fig` " \
+#         "as the last line of code"
 INITIAL_CODE = """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -48,15 +51,8 @@ async def callback(content: str, user: str, instance: pn.chat.ChatInterface):
 
     # stream LLM tokens
     message = ""
-    async for part in await client.generate(
-        model='mistral',
-        system=SYSTEM_MESSAGE,
-        prompt=in_message,
-        stream=True,
-        options={
-            'temperature': 0,
-        },
-    ):
+
+    async for part in await Model().generate.remote(in_message):
         message += part['response']
         yield message
 
