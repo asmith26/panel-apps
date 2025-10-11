@@ -60,7 +60,7 @@ image = (
     )
     .pip_install("requests")  # for healthchecks
     .pip_install("httpx")  # for reverse proxy
-    .copy_local_file("../utils/entrypoint.sh", "/opt/entrypoint.sh")
+    .add_local_file("../utils/entrypoint.sh", "/opt/entrypoint.sh", copy=True)
     .dockerfile_commands(
         [
             "RUN chmod a+x /opt/entrypoint.sh",
@@ -71,8 +71,8 @@ image = (
     .run_function(download_model)
 )
 
-stub = modal.Stub("ollama-server", image=image)
-with stub.image.imports():
+app = modal.App("ollama-server", image=image)
+with app.image.imports():
     import httpx
     import requests
 
@@ -89,16 +89,16 @@ with stub.image.imports():
 
 # FastAPI proxy. This allows for requests to be handled by Modal, allowing
 # effective scaling, queues, etc.
-app = FastAPI()
+web = FastAPI()
 
 
-@stub.function(gpu="T4", container_idle_timeout=300)
+@app.function(gpu="T4", container_idle_timeout=300)
 @modal.asgi_app()
 def create_asgi():
     return app
 
 
-@app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"])
+@web.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"])
 async def proxy(request: Request, path: str):
     # Create a new client on every request.
     client = httpx.AsyncClient(
